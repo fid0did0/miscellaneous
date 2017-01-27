@@ -1,0 +1,22 @@
+si3210_spi.o: si3210_spi.c \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/stdc-predef.h \
+ si3210.h \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/stdio.h \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/features.h \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/sys/glibc-types.h \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/sys/cdefs.h \
+ /home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/bits/alltypes.h
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/stdc-predef.h:
+
+si3210.h:
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/stdio.h:
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/features.h:
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/sys/glibc-types.h:
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/sys/cdefs.h:
+
+/home/lippo/Progetti/Xcompiler/github/source/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.15/include/bits/alltypes.h:
