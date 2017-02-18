@@ -69,8 +69,6 @@ DirRegs si3210DR_init[] = {{0x00, 0x00}, {0x01, 0x08}, 		// 00-01
 				{0x6A, 0x20}, {0x6B, 0x08}, 	// 106-107
 				{0x6C, 0xEB}};
 	
-slic_dev_str	slic_dev;
-
 void mvOsDelay(int delay_val) {
 	usleep(1000*delay_val);
 }
@@ -175,7 +173,6 @@ static int ReadBack;
 void clearInterrupts(slic_dev_str *slic_dev) {
 	writeDirectReg(slic_dev, 	18	,	INIT_DR18	);//0xff	Normal Oper. Interrupt Register 1 (clear with 0xFF)
 	writeDirectReg(slic_dev, 	19	,	INIT_DR19	);//0xff	Normal Oper. Interrupt Register 2 (clear with 0xFF)
-	writeDirectReg(slic_dev, 	20	,	INIT_DR20	);//0xff	Normal Oper. Interrupt Register 3 (clear with 0xFF)
 	writeDirectReg(slic_dev, 	20	,	INIT_DR20	);//0xff	Normal Oper. Interrupt Register 3 (clear with 0xFF)
 }
 
@@ -369,12 +366,15 @@ int slicStart(slic_dev_str *slic_dev) {
 	
 	//if (!selfTest(slic_dev)) return 0;
 
+	printf ("writing IRegs\n");
 	initializeIndirectRegisters(slic_dev);
+	printf ("verifying IRegs\n");
 	if (verifyIndirectRegisters (slic_dev)) {
 		printf ("verifyIndirect failed\n");
 		return 0;
 	}
-
+	
+	printf ("Prepare PowerUp\n");
 	if ((slic_dev->si_model == si3210)||(slic_dev->si_model == si3210M)) // Si3210 not the Si3211 or Si3212	
 	{
 		writeDirectReg(slic_dev, 67,0x17); // Make VBat switch not automatic 

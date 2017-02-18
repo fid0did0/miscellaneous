@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdint.h>
+#include <pthread.h>
 #include <poll.h>
 #include "config.h"
 
@@ -335,6 +336,7 @@ typedef struct {uint8_t	addr; uint16_t data;} IndRegs;
 typedef struct {uint8_t	addr; uint8_t data;} DirRegs;
 typedef struct {
 	FILE 		*sf;
+	pthread_mutex_t SpiMutex;
 //	struct pollfd 	*fdset;
 	si_model_type	si_model;
 	unsigned char	version;
@@ -343,6 +345,9 @@ typedef struct {
 //	unsigned char	dcval; /* daisy chain value */
 } slic_dev_str;
 
+void InitSpi(slic_dev_str *slic_dev);
+void DestroySpi(slic_dev_str *slic_dev);
+	
 void waitForIndirectReg(slic_dev_str *pslic_dev);
 unsigned char readDirectReg(slic_dev_str *pslic_dev, unsigned char address);
 void writeDirectReg(slic_dev_str *pslic_dev, unsigned char address, unsigned char data);
@@ -355,3 +360,7 @@ void device_identification(slic_dev_str *slic_dev);
 void clearInterrupts(slic_dev_str *slic_dev);
 int slicStart(slic_dev_str *slic_dev);
 void powerDown(slic_dev_str *slic_dev);
+
+void stopTone(slic_dev_str *slic_dev);
+void dialTone(slic_dev_str *slic_dev);
+void busyTone(slic_dev_str *slic_dev);
