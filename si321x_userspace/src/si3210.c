@@ -619,6 +619,22 @@ void busyTone(slic_dev_str *slic_dev)
   writeDirectReg(slic_dev, 33,  BUSYTONE_DR33);
 }
 
+void PhoneStatus(slic_dev_str *slic_dev) {
+	int dtmf_digit;
+	int onhook, k;
+
+	for(k=0;k<30;k++) {
+		dtmf_digit=readDirectReg(slic_dev, 24);
+		onhook=readDirectReg(slic_dev, 68);
+		if (onhook==0x04)
+			printf ("on-hook, dtmf %d\n", dtmf_digit&0x0f);
+		else
+			printf ("off-hook, dtmf %d\n", dtmf_digit&0x0f);
+		sleep(1);
+	}
+	printf ("\n");
+}
+
 int main (int argc, char * argv[])
 {
 	slic_dev_str	*pslic_dev;
@@ -660,6 +676,9 @@ int main (int argc, char * argv[])
 		if (!strcmp( argv[1], "busytone" )) {
 			printf("Busy Tone\n");
 			busyTone(pslic_dev);
+		}		
+		if (!strcmp( argv[1], "status" )) {
+			PhoneStatus(pslic_dev);
 		}		
 		
 	}
