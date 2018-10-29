@@ -2986,7 +2986,7 @@
 	chosen {
 		linux,initrd-end = <0x0 0x4d5c4d8>;
 		linux,initrd-start = <0x0 0x4bf0000>;
-		bootargs = "earlyprintk=uart8250-32bit,0xff130000 usbcore.autosuspend=-1 console=ttyFIQ0 androidboot.baseband=N/A androidboot.selinux=permissive androidboot.veritymode=/dev/block/platform/ff520000.dwmmc/by-name/metadata androidboot.hardware=rk30board androidboot.console=ttyFIQ0 firmware_class.path=/vendor/etc/firmware init=/init  mtdparts=rk29xxnand:0x00002000@0x00002000(uboot),0x00002000@0x00004000(trust),0x00002000@0x00006000(misc),0x00000800@0x00008000(baseparameter),0x00008000@0x00008800(resource),0x00010000@0x00010800(kernel),0x00010000@0x00020800(boot),0x00020000@0x00030800(recovery),0x00008000@0x00050800(backup),0x00080000@0x00058800(cache),0x00300000@0x000d8800(system),0x00008000@0x003d8800(metadata),0x00080000@0x003e0800(vendor),0x00042000@0x00460800(oem),0x00000400@0x004a2800(frp),0x00001000@0x004a2c00(security),-@0x004a3c00(userdata) storagemedia=emmc androidboot.oem_unlocked=0 uboot_logo=0x02000000@0xfcc00000 loader.timestamp=2018-07-23_16:22:20 hdmi.vic=-1 tve.format=-1 SecureBootCheckOk=0";
+		bootargs = "earlyprintk=uart8250-32bit,0xff130000 loglevel=7";
 	};
 
 	fiq-debugger {
