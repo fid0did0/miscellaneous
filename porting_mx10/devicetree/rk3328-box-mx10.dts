@@ -1519,59 +1519,6 @@
 		compatible = "rockchip,display-subsystem";
 		ports = <0x61>;
 		status = "okay";
-		logo-memory-region = <0x62>;
-		secure-memory-region = <0x63>;
-
-		route {
-
-			route-hdmi {
-				overscan,bottom_margin = <0x64>;
-				overscan,top_margin = <0x64>;
-				overscan,right_margin = <0x64>;
-				overscan,left_margin = <0x64>;
-				video,flags = <0x5>;
-				video,vrefresh = <0x3c>;
-				video,crtc_vsync_end = <0x441>;
-				video,crtc_hsync_end = <0x804>;
-				video,vdisplay = <0x438>;
-				video,hdisplay = <0x780>;
-				logo,ymirror = <0x1>;
-				logo,bpp = <0x18>;
-				logo,height = <0x438>;
-				logo,width = <0x780>;
-				logo,offset = <0x5ef036>;
-				status = "okay";
-				logo,uboot = "logo.bmp";
-				logo,kernel = "logo_kernel.bmp";
-				logo,mode = "fullscreen";
-				charge_logo,mode = "fullscreen";
-				connect = <0x5f>;
-			};
-
-			route-tve {
-				overscan,bottom_margin = <0x64>;
-				overscan,top_margin = <0x64>;
-				overscan,right_margin = <0x64>;
-				overscan,left_margin = <0x64>;
-				video,flags = <0x0>;
-				video,vrefresh = <0x0>;
-				video,crtc_vsync_end = <0x0>;
-				video,crtc_hsync_end = <0x0>;
-				video,vdisplay = <0x0>;
-				video,hdisplay = <0x0>;
-				logo,ymirror = <0x1>;
-				logo,bpp = <0x18>;
-				logo,height = <0x438>;
-				logo,width = <0x780>;
-				logo,offset = <0x5ef036>;
-				status = "okay";
-				logo,uboot = "logo.bmp";
-				logo,kernel = "logo_kernel.bmp";
-				logo,mode = "fullscreen";
-				charge_logo,mode = "fullscreen";
-				connect = <0x60>;
-			};
-		};
 	};
 
 	codec@ff410000 {
@@ -2984,9 +2931,7 @@
 	};
 
 	chosen {
-		linux,initrd-end = <0x0 0x4d5c4d8>;
-		linux,initrd-start = <0x0 0x4bf0000>;
-		bootargs = "earlyprintk=uart8250-32bit,0xff130000 loglevel=7";
+		bootargs = "earlyprintk=uart8250-32bit,0xff130000";
 	};
 
 	fiq-debugger {
