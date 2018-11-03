@@ -1519,6 +1519,16 @@
 		compatible = "rockchip,display-subsystem";
 		ports = <0x61>;
 		status = "okay";
+		route {
+			route-hdmi {
+				status = "okay";
+				connect = <0x5f>;
+			};
+			route-tve {
+				status = "okay";
+				connect = <0x60>;
+			};
+		};
 	};
 
 	codec@ff410000 {
