@@ -2,65 +2,10 @@
 
 /memreserve/	0x0000000004600000 0x0000000000010000;
 /memreserve/	0x0000000004bf0000 0x000000000016c4d8;
-/ {
-	compatible = "rockchip,rk3328-evb", "rockchip,rk3328";
-	interrupt-parent = <0x1>;
-	#address-cells = <0x2>;
-	#size-cells = <0x2>;
-	model = "Rockchip RK3328 EVB";
 
-	memory {
-		reg = <0x0 0x200000 0x0 0x8200000 0x0 0xa200000 0x0 0xf4e00000>;
-		device_type = "memory";
-	};
+#include "rk3328_tmp.dtsi"
 
-	ddr_timing {
-		compatible = "rockchip,ddr-timing";
-		ddr3_speed_bin = <0x15>;
-		ddr4_speed_bin = <0xc>;
-		pd_idle = <0x0>;
-		sr_idle = <0x0>;
-		sr_mc_gate_idle = <0x0>;
-		srpd_lite_idle = <0x0>;
-		standby_idle = <0x0>;
-		auto_pd_dis_freq = <0x42a>;
-		auto_sr_dis_freq = <0x320>;
-		ddr3_dll_dis_freq = <0x12c>;
-		ddr4_dll_dis_freq = <0x271>;
-		phy_dll_dis_freq = <0x190>;
-		ddr3_odt_dis_freq = <0x64>;
-		phy_ddr3_odt_dis_freq = <0x64>;
-		ddr3_drv = <0x28>;
-		ddr3_odt = <0x78>;
-		phy_ddr3_ca_drv = <0x1b>;
-		phy_ddr3_ck_drv = <0x15>;
-		phy_ddr3_dq_drv = <0x15>;
-		phy_ddr3_odt = <0x3>;
-		lpddr3_odt_dis_freq = <0x29a>;
-		phy_lpddr3_odt_dis_freq = <0x29a>;
-		lpddr3_drv = <0x28>;
-		lpddr3_odt = <0xf0>;
-		phy_lpddr3_ca_drv = <0x16>;
-		phy_lpddr3_ck_drv = <0x13>;
-		phy_lpddr3_dq_drv = <0x16>;
-		phy_lpddr3_odt = <0x2>;
-		lpddr4_odt_dis_freq = <0x320>;
-		phy_lpddr4_odt_dis_freq = <0x320>;
-		lpddr4_drv = <0x3c>;
-		lpddr4_dq_odt = <0x28>;
-		lpddr4_ca_odt = <0x28>;
-		phy_lpddr4_ca_drv = <0x14>;
-		phy_lpddr4_ck_cs_drv = <0x6>;
-		phy_lpddr4_dq_drv = <0x6>;
-		phy_lpddr4_odt = <0x10>;
-		ddr4_odt_dis_freq = <0x29a>;
-		phy_ddr4_odt_dis_freq = <0x29a>;
-		ddr4_drv = <0x22>;
-		ddr4_odt = <0xf0>;
-		phy_ddr4_ca_drv = <0x16>;
-		phy_ddr4_ck_drv = <0x13>;
-		phy_ddr4_dq_drv = <0x16>;
-		phy_ddr4_odt = <0x2>;
+&ddr_timing {
 		ddr3a1_ddr4a9_de-skew = <0x2>;
 		ddr3a0_ddr4a10_de-skew = <0x3>;
 		ddr3a3_ddr4a6_de-skew = <0x3>;
@@ -87,7 +32,7 @@
 		ddr3ckp_ddr4ckp_de-skew = <0x7>;
 		ddr3cke_ddr4a16_de-skew = <0x2>;
 		ddr3odt0_ddr4a14_de-skew = <0x4>;
-		ddr3cs0_ddr4act_de-skew = <0x4>;
+		ddr3cs0_ddr4act_de-skew = <0x4>;		
 		ddr3reset_ddr4reset_de-skew = <0x7>;
 		ddr3cs1_ddr4cs1_de-skew = <0x7>;
 		ddr3odt1_ddr4odt1_de-skew = <0x7>;
@@ -259,8 +204,18 @@
 		cs1_dqs3_rx_de-skew = <0x7>;
 		cs1_dqs3p_tx_de-skew = <0x9>;
 		cs1_dqs3n_tx_de-skew = <0x9>;
-		linux,phandle = <0x81>;
-		phandle = <0x81>;
+};
+
+/ {
+	compatible = "rockchip,rk3328-mx10", "rockchip,rk3328";
+	interrupt-parent = <0x1>;
+	#address-cells = <0x2>;
+	#size-cells = <0x2>;
+	model = "Rockchip RK3328 MX10";
+
+	memory {
+		reg = <0x0 0x200000 0x0 0x8200000 0x0 0xa200000 0x0 0xf4e00000>;
+		device_type = "memory";
 	};
 
 	aliases {
@@ -273,55 +228,6 @@
 		i2c3 = "/i2c@ff180000";
 		ethernet0 = "/ethernet@ff540000";
 		ethernet1 = "/ethernet@ff550000";
-	};
-
-	cpus {
-		#address-cells = <0x2>;
-		#size-cells = <0x0>;
-
-		cpu@0 {
-			device_type = "cpu";
-			compatible = "arm,cortex-a53", "arm,armv8";
-			reg = <0x0 0x0>;
-			enable-method = "psci";
-			clocks = <0x2 0x6>;
-			#cooling-cells = <0x2>;
-			dynamic-power-coefficient = <0x78>;
-			operating-points-v2 = <0x3>;
-			cpu-supply = <0x4>;
-			linux,phandle = <0x6>;
-			phandle = <0x6>;
-		};
-
-		cpu@1 {
-			device_type = "cpu";
-			compatible = "arm,cortex-a53", "arm,armv8";
-			reg = <0x0 0x1>;
-			enable-method = "psci";
-			operating-points-v2 = <0x3>;
-			linux,phandle = <0x7>;
-			phandle = <0x7>;
-		};
-
-		cpu@2 {
-			device_type = "cpu";
-			compatible = "arm,cortex-a53", "arm,armv8";
-			reg = <0x0 0x2>;
-			enable-method = "psci";
-			operating-points-v2 = <0x3>;
-			linux,phandle = <0x8>;
-			phandle = <0x8>;
-		};
-
-		cpu@3 {
-			device_type = "cpu";
-			compatible = "arm,cortex-a53", "arm,armv8";
-			reg = <0x0 0x3>;
-			enable-method = "psci";
-			operating-points-v2 = <0x3>;
-			linux,phandle = <0x9>;
-			phandle = <0x9>;
-		};
 	};
 
 	cpu0-opp-table {
@@ -386,7 +292,7 @@
 	arm-pmu {
 		compatible = "arm,cortex-a53-pmu";
 		interrupts = <0x0 0x64 0x4 0x0 0x65 0x4 0x0 0x66 0x4 0x0 0x67 0x4>;
-		interrupt-affinity = <0x6 0x7 0x8 0x9>;
+		interrupt-affinity = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
 	};
 
 	cpuinfo {
@@ -1519,16 +1425,6 @@
 		compatible = "rockchip,display-subsystem";
 		ports = <0x61>;
 		status = "okay";
-		route {
-			route-hdmi {
-				status = "okay";
-				connect = <0x5f>;
-			};
-			route-tve {
-				status = "okay";
-				connect = <0x60>;
-			};
-		};
 	};
 
 	codec@ff410000 {
@@ -1876,7 +1772,7 @@
 		clocks = <0x2 0x40>;
 		clock-names = "dmc_clk";
 		operating-points-v2 = <0x80>;
-		ddr_timing = <0x81>;
+		ddr_timing = <&ddr_timing>;
 		upthreshold = <0x28>;
 		downdifferential = <0x14>;
 		system-status-freq = <0x1 0xbfe50 0x8 0xbfe50 0x2 0xbfe50 0x20 0xbfe50 0x10 0xbfe50 0x10000 0xe3c88 0x2000 0xe3c88 0x1000 0xe3c88>;
