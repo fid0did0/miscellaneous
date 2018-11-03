@@ -206,6 +206,10 @@
 		cs1_dqs3n_tx_de-skew = <0x9>;
 };
 
+&cpu0_opp_table{
+	rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
+};
+
 / {
 	compatible = "rockchip,rk3328-mx10", "rockchip,rk3328";
 	interrupt-parent = <0x1>;
@@ -228,65 +232,6 @@
 		i2c3 = "/i2c@ff180000";
 		ethernet0 = "/ethernet@ff540000";
 		ethernet1 = "/ethernet@ff550000";
-	};
-
-	cpu0-opp-table {
-		compatible = "operating-points-v2";
-		opp-shared;
-		rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
-		nvmem-cells = <0x5>;
-		nvmem-cell-names = "cpu_leakage";
-		linux,phandle = <0x3>;
-		phandle = <0x3>;
-
-		opp-408000000 {
-			opp-hz = <0x0 0x18519600>;
-			opp-microvolt = <0xee098>;
-			opp-microvolt-L0 = <0xee098>;
-			opp-microvolt-L1 = <0xe7ef0>;
-			clock-latency-ns = <0x9c40>;
-			opp-suspend;
-		};
-
-		opp-600000000 {
-			opp-hz = <0x0 0x23c34600>;
-			opp-microvolt = <0xee098>;
-			opp-microvolt-L0 = <0xee098>;
-			opp-microvolt-L1 = <0xe7ef0>;
-			clock-latency-ns = <0x9c40>;
-		};
-
-		opp-816000000 {
-			opp-hz = <0x0 0x30a32c00>;
-			opp-microvolt = <0xfa3e8>;
-			opp-microvolt-L0 = <0xfa3e8>;
-			opp-microvolt-L1 = <0xf4240>;
-			clock-latency-ns = <0x9c40>;
-		};
-
-		opp-1008000000 {
-			opp-hz = <0x0 0x3c14dc00>;
-			opp-microvolt = <0x112a88>;
-			opp-microvolt-L0 = <0x112a88>;
-			opp-microvolt-L1 = <0x10c8e0>;
-			clock-latency-ns = <0x9c40>;
-		};
-
-		opp-1200000000 {
-			opp-hz = <0x0 0x47868c00>;
-			opp-microvolt = <0x1312d0>;
-			opp-microvolt-L0 = <0x1312d0>;
-			opp-microvolt-L1 = <0x12b128>;
-			clock-latency-ns = <0x9c40>;
-		};
-
-		opp-1296000000 {
-			opp-hz = <0x0 0x4d3f6400>;
-			opp-microvolt = <0x1437c8>;
-			opp-microvolt-L0 = <0x1437c8>;
-			opp-microvolt-L1 = <0x13d620>;
-			clock-latency-ns = <0x9c40>;
-		};
 	};
 
 	arm-pmu {
