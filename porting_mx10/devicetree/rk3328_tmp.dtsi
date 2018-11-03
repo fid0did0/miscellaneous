@@ -59,17 +59,17 @@
 	#size-cells = <2>;
 
 	aliases {
-		ethernet0 = &gmac2io;
-		ethernet1 = &gmac2phy;
-		i2c0 = &i2c0;
-		i2c1 = &i2c1;
-		i2c2 = &i2c2;
-		i2c3 = &i2c3;
-		serial0 = &uart0;
-		serial1 = &uart1;
-		serial2 = &uart2;
+		serial0 = "/serial@ff110000";		//&uart0;
+		serial1 = "/serial@ff120000";		//&uart1;
+		serial2 = "/serial@ff130000";		//&uart2;
+		i2c0 = "/i2c@ff150000";			//&i2c0;
+		i2c1 = "/i2c@ff160000";			//&i2c1;
+		i2c2 = "/i2c@ff170000";			//&i2c2;
+		i2c3 = "/i2c@ff180000";			//&i2c3;
+		ethernet0 = "/ethernet@ff540000";	//&gmac2io;
+		ethernet1 = "/ethernet@ff550000";	//&gmac2phy;
 	};
-	
+
 	cpus {
 		#address-cells = <2>;
 		#size-cells = <0>;
@@ -186,4 +186,37 @@
 		*/
 	};
 	
+	arm-pmu {
+		compatible = "arm,cortex-a53-pmu";
+		interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 101 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 102 IRQ_TYPE_LEVEL_HIGH>,
+			     <GIC_SPI 103 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-affinity = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
+	};
+
+	cpuinfo {
+		compatible = "rockchip,cpuinfo";
+		nvmem-cells = <0xa 0xb>;		//<&efuse_id>, <&efuse_cpu_version>;
+		nvmem-cell-names = "id", "cpu-version";
+	};
+
+	firmware {
+		optee {
+			compatible = "linaro,optee-tz";
+			method = "smc";
+		};
+	};
+
+	psci {
+		compatible = "arm,psci-1.0";
+		method = "smc";
+	};
+
+	rockchip_suspend: rockchip-suspend {
+		compatible = "rockchip,pm-rk3328";
+		status = "disabled";
+		rockchip,virtual-poweroff = <0>;
+	};
+
 };

@@ -210,6 +210,11 @@
 	rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
 };
 
+&rockchip_suspend {
+		status = "okay";
+		rockchip,virtual-poweroff = <1>;
+};
+
 / {
 	compatible = "rockchip,rk3328-mx10", "rockchip,rk3328";
 	interrupt-parent = <0x1>;
@@ -220,73 +225,6 @@
 	memory {
 		reg = <0x0 0x200000 0x0 0x8200000 0x0 0xa200000 0x0 0xf4e00000>;
 		device_type = "memory";
-	};
-
-	aliases {
-		serial0 = "/serial@ff110000";
-		serial1 = "/serial@ff120000";
-		serial2 = "/serial@ff130000";
-		i2c0 = "/i2c@ff150000";
-		i2c1 = "/i2c@ff160000";
-		i2c2 = "/i2c@ff170000";
-		i2c3 = "/i2c@ff180000";
-		ethernet0 = "/ethernet@ff540000";
-		ethernet1 = "/ethernet@ff550000";
-	};
-
-	arm-pmu {
-		compatible = "arm,cortex-a53-pmu";
-		interrupts = <0x0 0x64 0x4 0x0 0x65 0x4 0x0 0x66 0x4 0x0 0x67 0x4>;
-		interrupt-affinity = <&cpu0>, <&cpu1>, <&cpu2>, <&cpu3>;
-	};
-
-	cpuinfo {
-		compatible = "rockchip,cpuinfo";
-		nvmem-cells = <0xa 0xb>;
-		nvmem-cell-names = "id", "cpu-version";
-	};
-
-	firmware {
-
-		optee {
-			compatible = "linaro,optee-tz";
-			method = "smc";
-		};
-
-		android {
-			compatible = "android,firmware";
-
-			fstab {
-				compatible = "android,fstab";
-
-				system {
-					compatible = "android,system";
-					dev = "/dev/block/platform/ff520000.dwmmc/by-name/system";
-					type = "ext4";
-					mnt_flags = "ro,barrier=1,inode_readahead_blks=8";
-					fsmgr_flags = "wait,verify";
-				};
-
-				vendor {
-					compatible = "android,vendor";
-					dev = "/dev/block/platform/ff520000.dwmmc/by-name/vendor";
-					type = "ext4";
-					mnt_flags = "ro,barrier=1,inode_readahead_blks=8";
-					fsmgr_flags = "wait,verify";
-				};
-			};
-		};
-	};
-
-	psci {
-		compatible = "arm,psci-1.0";
-		method = "smc";
-	};
-
-	rockchip-suspend {
-		compatible = "rockchip,pm-rk3328";
-		status = "okay";
-		rockchip,virtual-poweroff = <0x1>;
 	};
 
 	timer {
