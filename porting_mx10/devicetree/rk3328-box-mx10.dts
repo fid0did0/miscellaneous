@@ -206,6 +206,22 @@
 		cs1_dqs3n_tx_de-skew = <0x9>;
 };
 
+&cpu0 {
+	cpu-supply = <&vdd_arm>;
+};
+
+&cpu1 {
+	cpu-supply = <&vdd_arm>;
+};
+
+&cpu2 {
+	cpu-supply = <&vdd_arm>;
+};
+
+&cpu3 {
+	cpu-supply = <&vdd_arm>;
+};
+
 &cpu0_opp_table{
 	rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
 };
@@ -234,13 +250,13 @@
 &io_domains {
 	status = "okay";
 	
-	vccio1-supply = <0x29>;
-	vccio2-supply = <0x2a>;
-	vccio3-supply = <0x29>;
-	vccio4-supply = <0x2b>;
-	vccio5-supply = <0x29>;
-	vccio6-supply = <0x29>;
-	pmuio-supply = <0x29>;
+	vccio1-supply = <&vcc_io>;
+	vccio2-supply = <&vcc18_emmc>;
+	vccio3-supply = <&vcc_io>;
+	vccio4-supply = <&vcc_18>;
+	vccio5-supply = <&vcc_io>;
+	vccio6-supply = <&vcc_io>;
+	pmuio-supply = <&vcc_io>;
 };
 
 &tsadc{
@@ -249,6 +265,147 @@
 
 &uart0 {
 	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+
+	rk805: rk805@18 {
+		compatible = "rockchip,rk805";
+		status = "okay";
+		reg = <0x18>;
+		interrupt-parent = <0x3e>;		//interrupt-parent = <&gpio2>;
+		interrupts = <0x6 0x8>;
+		#clock-cells = <1>;
+		clock-output-names = "xin32k", "rk805-clkout2";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x3f>;			//pinctrl-0 = <&pmic_int_l>;
+		wakeup-source;
+		gpio-controller;
+		#gpio-cells = <2>;
+
+		//vcc1-supply = <&vcc_sys>;
+		//vcc2-supply = <&vcc_sys>;
+		//vcc3-supply = <&vcc_sys>;
+		//vcc4-supply = <&vcc_sys>;
+		//vcc5-supply = <&vcc_io>;
+		//vcc6-supply = <&vcc_sys>;
+
+		rtc {
+			status = "okay";
+		};
+
+		pwrkey {
+			status = "disabled";
+		};
+		gpio {
+			status = "okay";
+		};
+
+		regulators {
+			compatible = "rk805-regulator";
+			status = "okay";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			
+			vdd_logic: RK805_DCDC1 {
+				regulator-compatible = "RK805_DCDC1";
+				regulator-name = "vdd_logic";
+				regulator-min-microvolt = <712500>;
+				regulator-max-microvolt = <1450000>;
+				regulator-initial-mode = <1>;
+				regulator-ramp-delay = <12500>;
+				regulator-always-on;
+				regulator-boot-on;
+				regulator-state-mem {
+					regulator-mode = <0x2>;
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1000000>;
+				};
+			};
+
+			vdd_arm: RK805_DCDC2 {
+				regulator-compatible = "RK805_DCDC2";
+				regulator-name = "vdd_arm";
+				regulator-init-microvolt = <1225000>;
+				regulator-min-microvolt = <712500>;
+				regulator-max-microvolt = <1450000>;
+				regulator-initial-mode = <0x1>;
+				regulator-ramp-delay = <12500>;
+				regulator-always-on;
+				regulator-boot-on;				
+				regulator-state-mem {
+					regulator-mode = <0x2>;
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <950000>;
+				};
+			};
+			
+			vcc_ddr: RK805_DCDC3 {
+				regulator-compatible = "RK805_DCDC3";
+				regulator-name = "vcc_ddr";
+				regulator-initial-mode = <0x1>;
+				regulator-always-on;
+				regulator-boot-on;				
+				regulator-state-mem {
+					regulator-mode = <0x2>;
+					regulator-on-in-suspend;
+				};
+			};
+
+			vcc_io: RK805_DCDC4 {
+				regulator-compatible = "RK805_DCDC4";
+				regulator-name = "vcc_io";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-initial-mode = <0x1>;
+				regulator-always-on;
+				regulator-boot-on;				
+				regulator-state-mem {
+					regulator-mode = <0x2>;
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <3300000>;
+				};
+			};
+
+			vcc_18: RK805_LDO1 {
+				regulator-compatible = "RK805_LDO1";
+				regulator-name = "vdd_18";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-always-on;
+				regulator-boot-on;				
+				regulator-state-mem {
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+			};
+			vcc18_emmc: RK805_LDO2 {
+				regulator-compatible = "RK805_LDO2";
+				regulator-name = "vcc_18emmc";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-always-on;
+				regulator-boot-on;				
+				regulator-state-mem {
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+			};
+			vdd_11: RK805_LDO3 {
+				regulator-compatible = "RK805_LDO3";
+				regulator-name = "vdd_11";
+				regulator-min-microvolt = <1100000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-boot-on;
+				regulator-always-on;
+				regulator-state-mem {
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1100000>;
+				};
+			};
+		};
+	};
 };
 
 / {
@@ -321,210 +478,6 @@
 				};
 			};
 		};
-	};
-
-	i2c@ff150000 {
-		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
-		reg = <0x0 0xff150000 0x0 0x1000>;
-		interrupts = <0x0 0x24 0x4>;
-		#address-cells = <0x1>;
-		#size-cells = <0x0>;
-		clocks = <&cru 0x37 &cru 0xcd>;
-		clock-names = "i2c", "pclk";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x3c>;
-		status = "disabled";
-	};
-
-	i2c@ff160000 {
-		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
-		reg = <0x0 0xff160000 0x0 0x1000>;
-		interrupts = <0x0 0x25 0x4>;
-		#address-cells = <0x1>;
-		#size-cells = <0x0>;
-		clocks = <&cru 0x38 &cru 0xce>;
-		clock-names = "i2c", "pclk";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x3d>;
-		status = "okay";
-
-		rk805@18 {
-			compatible = "rockchip,rk805";
-			status = "okay";
-			reg = <0x18>;
-			interrupt-parent = <0x3e>;
-			interrupts = <0x6 0x8>;
-			pinctrl-names = "default";
-			pinctrl-0 = <0x3f>;
-			wakeup-source;
-			gpio-controller;
-			#gpio-cells = <0x2>;
-			#clock-cells = <0x1>;
-			clock-output-names = "xin32k", "rk805-clkout2";
-			linux,phandle = <0x9a>;
-			phandle = <0x9a>;
-
-			rtc {
-				status = "okay";
-			};
-
-			pwrkey {
-				status = "disabled";
-			};
-
-			gpio {
-				status = "okay";
-			};
-
-			regulators {
-				compatible = "rk805-regulator";
-				status = "okay";
-				#address-cells = <0x1>;
-				#size-cells = <0x0>;
-
-				RK805_DCDC1@0 {
-					regulator-compatible = "RK805_DCDC1";
-					regulator-name = "vdd_logic";
-					regulator-min-microvolt = <0xadf34>;
-					regulator-max-microvolt = <0x162010>;
-					regulator-initial-mode = <0x1>;
-					regulator-ramp-delay = <0x30d4>;
-					regulator-boot-on;
-					regulator-always-on;
-					linux,phandle = <0x4b>;
-					phandle = <0x4b>;
-
-					regulator-state-mem {
-						regulator-mode = <0x2>;
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0xf4240>;
-					};
-				};
-
-				RK805_DCDC2@1 {
-					regulator-compatible = "RK805_DCDC2";
-					regulator-name = "vdd_arm";
-					regulator-init-microvolt = <0x12b128>;
-					regulator-min-microvolt = <0xadf34>;
-					regulator-max-microvolt = <0x162010>;
-					regulator-initial-mode = <0x1>;
-					regulator-ramp-delay = <0x30d4>;
-					regulator-boot-on;
-					regulator-always-on;
-					linux,phandle = <0x4>;
-					phandle = <0x4>;
-
-					regulator-state-mem {
-						regulator-mode = <0x2>;
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0xe7ef0>;
-					};
-				};
-
-				RK805_DCDC3@2 {
-					regulator-compatible = "RK805_DCDC3";
-					regulator-name = "vcc_ddr";
-					regulator-initial-mode = <0x1>;
-					regulator-boot-on;
-					regulator-always-on;
-
-					regulator-state-mem {
-						regulator-mode = <0x2>;
-						regulator-on-in-suspend;
-					};
-				};
-
-				RK805_DCDC4@3 {
-					regulator-compatible = "RK805_DCDC4";
-					regulator-name = "vcc_io";
-					regulator-min-microvolt = <0x325aa0>;
-					regulator-max-microvolt = <0x325aa0>;
-					regulator-initial-mode = <0x1>;
-					regulator-boot-on;
-					regulator-always-on;
-					linux,phandle = <0x29>;
-					phandle = <0x29>;
-
-					regulator-state-mem {
-						regulator-mode = <0x2>;
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x325aa0>;
-					};
-				};
-
-				RK805_LDO1@4 {
-					regulator-compatible = "RK805_LDO1";
-					regulator-name = "vdd_18";
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					regulator-boot-on;
-					regulator-always-on;
-					linux,phandle = <0x2b>;
-					phandle = <0x2b>;
-
-					regulator-state-mem {
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x1b7740>;
-					};
-				};
-
-				RK805_LDO2@5 {
-					regulator-compatible = "RK805_LDO2";
-					regulator-name = "vcc_18emmc";
-					regulator-min-microvolt = <0x1b7740>;
-					regulator-max-microvolt = <0x1b7740>;
-					regulator-boot-on;
-					regulator-always-on;
-					linux,phandle = <0x2a>;
-					phandle = <0x2a>;
-
-					regulator-state-mem {
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x1b7740>;
-					};
-				};
-
-				RK805_LDO3@6 {
-					regulator-compatible = "RK805_LDO3";
-					regulator-name = "vdd_11";
-					regulator-min-microvolt = <0x10c8e0>;
-					regulator-max-microvolt = <0x10c8e0>;
-					regulator-boot-on;
-					regulator-always-on;
-
-					regulator-state-mem {
-						regulator-on-in-suspend;
-						regulator-suspend-microvolt = <0x10c8e0>;
-					};
-				};
-			};
-		};
-	};
-
-	i2c@ff170000 {
-		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
-		reg = <0x0 0xff170000 0x0 0x1000>;
-		interrupts = <0x0 0x26 0x4>;
-		#address-cells = <0x1>;
-		#size-cells = <0x0>;
-		clocks = <&cru 0x39 &cru 0xcf>;
-		clock-names = "i2c", "pclk";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x40>;
-		status = "disabled";
-	};
-
-	i2c@ff180000 {
-		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
-		reg = <0x0 0xff180000 0x0 0x1000>;
-		interrupts = <0x0 0x27 0x4>;
-		#address-cells = <0x1>;
-		#size-cells = <0x0>;
-		clocks = <&cru 0x3a &cru 0xd0>;
-		clock-names = "i2c", "pclk";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x41>;
-		status = "disabled";
 	};
 
 	spi@ff190000 {
@@ -704,7 +657,7 @@
 		#cooling-cells = <0x2>;
 		operating-points-v2 = <0x4a>;
 		status = "okay";
-		mali-supply = <0x4b>;
+		mali-supply = <&vdd_logic>;
 		linux,phandle = <0x31>;
 		phandle = <0x31>;
 
@@ -829,7 +782,7 @@
 		#cooling-cells = <0x2>;
 		devfreq = <0x33>;
 		status = "okay";
-		vcodec-supply = <0x4b>;
+		vcodec-supply = <&vdd_logic>;
 		linux,phandle = <0x32>;
 		phandle = <0x32>;
 
@@ -1451,7 +1404,7 @@
 		auto-freq-en = <0x0>;
 		#cooling-cells = <0x2>;
 		status = "okay";
-		center-supply = <0x4b>;
+		center-supply = <&vdd_logic>;
 		linux,phandle = <0x33>;
 		phandle = <0x33>;
 
@@ -2679,14 +2632,14 @@
 		regulator-name = "vcc_sd";
 		regulator-min-microvolt = <0x325aa0>;
 		regulator-max-microvolt = <0x325aa0>;
-		vin-supply = <0x29>;
+		vin-supply = <&vcc_io>;
 		linux,phandle = <0x6d>;
 		phandle = <0x6d>;
 	};
 
 	wireless-bluetooth {
 		compatible = "bluetooth-platdata";
-		clocks = <0x9a 0x1>;
+		clocks = <&rk805 0x1>;
 		clock-names = "ext_clock";
 		uart_rts_gpios = <0x72 0xa 0x1>;
 		pinctrl-names = "default", "rts_gpio";
@@ -2712,7 +2665,7 @@
 		compatible = "gpio-leds";
 
 		power-green {
-			gpios = <0x9a 0x0 0x0>;
+			gpios = <&rk805 0x0 0x0>;
 			linux,default-trigger = "none";
 			default-state = "on";
 			mode = <0x23>;

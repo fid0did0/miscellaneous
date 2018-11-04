@@ -83,7 +83,6 @@
 			#cooling-cells = <2>; /* min followed by max */
 			dynamic-power-coefficient = <120>;
 			operating-points-v2 = <&cpu0_opp_table>;
-			cpu-supply = <0x4>;
 		};
 		cpu1: cpu@1 {
 			device_type = "cpu";
@@ -457,6 +456,57 @@
 		reg = <0x0 0xff140000 0x0 0x1000>;
 	};
 
+	i2c0: i2c@ff150000 {
+		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
+		reg = <0x0 0xff150000 0x0 0x1000>;
+		interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&cru SCLK_I2C0>, <&cru PCLK_I2C0>;
+		clock-names = "i2c", "pclk";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x3c>;			//pinctrl-0 = <&i2c0_xfer>;
+		status = "disabled";
+	};
+
+	i2c1: i2c@ff160000 {
+		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
+		reg = <0x0 0xff160000 0x0 0x1000>;
+		interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&cru SCLK_I2C1>, <&cru PCLK_I2C1>;
+		clock-names = "i2c", "pclk";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x3d>;			//pinctrl-0 = <&i2c1_xfer>;
+		status = "disabled";
+	};
+
+	i2c2: i2c@ff170000 {
+		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
+		reg = <0x0 0xff170000 0x0 0x1000>;
+		interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&cru SCLK_I2C2>, <&cru PCLK_I2C2>;
+		clock-names = "i2c", "pclk";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x40>;			//pinctrl-0 = <&i2c2_xfer>;
+		status = "disabled";
+	};
+
+	i2c3: i2c@ff180000 {
+		compatible = "rockchip,rk3328-i2c", "rockchip,rk3399-i2c";
+		reg = <0x0 0xff180000 0x0 0x1000>;
+		interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&cru SCLK_I2C3>, <&cru PCLK_I2C3>;
+		clock-names = "i2c", "pclk";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x41>;			//pinctrl-0 = <&i2c3_xfer>;
+		status = "disabled";
+	};
 
 	
 	
