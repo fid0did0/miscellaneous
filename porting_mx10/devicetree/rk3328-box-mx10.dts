@@ -211,8 +211,24 @@
 };
 
 &rockchip_suspend {
-		status = "okay";
 		rockchip,virtual-poweroff = <1>;
+		status = "okay";		
+};
+
+&i2s0{
+	#sound-dai-cells = <0>;
+	rockchip,bclk-fs = <128>;
+	status = "okay";
+};
+
+&i2s1{
+	#sound-dai-cells = <0>;
+	status = "okay";
+};
+
+&spdif {
+	#sound-dai-cells = <0>;
+	status = "okay";
 };
 
 / {
@@ -225,69 +241,6 @@
 	memory {
 		reg = <0x0 0x200000 0x0 0x8200000 0x0 0xa200000 0x0 0xf4e00000>;
 		device_type = "memory";
-	};
-
-	i2s@ff000000 {
-		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
-		reg = <0x0 0xff000000 0x0 0x1000>;
-		interrupts = <0x0 0x1a 0x4>;
-		clocks = <0x2 0x29 0x2 0x137>;
-		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0xb 0xc 0xc>;
-		#dma-cells = <0x2>;
-		dma-names = "tx", "rx";
-		status = "okay";
-		#sound-dai-cells = <0x0>;
-		rockchip,bclk-fs = <0x80>;
-		linux,phandle = <0x92>;
-		phandle = <0x92>;
-	};
-
-	i2s@ff010000 {
-		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
-		reg = <0x0 0xff010000 0x0 0x1000>;
-		interrupts = <0x0 0x1b 0x4>;
-		clocks = <0x2 0x2a 0x2 0x138>;
-		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0xe 0xc 0xf>;
-		#dma-cells = <0x2>;
-		dma-names = "tx", "rx";
-		status = "okay";
-		#sound-dai-cells = <0x0>;
-		linux,phandle = <0x90>;
-		phandle = <0x90>;
-	};
-
-	i2s@ff020000 {
-		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
-		reg = <0x0 0xff020000 0x0 0x1000>;
-		interrupts = <0x0 0x1c 0x4>;
-		clocks = <0x2 0x2b 0x2 0x139>;
-		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0x0 0xc 0x1>;
-		#dma-cells = <0x2>;
-		dma-names = "tx", "rx";
-		pinctrl-names = "default", "sleep";
-		pinctrl-0 = <0xd 0xe 0xf 0x10 0x11 0x12>;
-		pinctrl-1 = <0x13>;
-		status = "disabled";
-	};
-
-	spdif@ff030000 {
-		compatible = "rockchip,rk3328-spdif";
-		reg = <0x0 0xff030000 0x0 0x1000>;
-		interrupts = <0x0 0x1d 0x4>;
-		clocks = <0x2 0x2e 0x2 0x13a>;
-		clock-names = "mclk", "hclk";
-		dmas = <0xc 0xa>;
-		#dma-cells = <0x1>;
-		dma-names = "tx";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x14>;
-		status = "okay";
-		#sound-dai-cells = <0x0>;
-		linux,phandle = <0x94>;
-		phandle = <0x94>;
 	};
 
 	pdm@ff040000 {
@@ -2792,7 +2745,7 @@
 		simple-audio-card,name = "rockchip,rk3328";
 
 		simple-audio-card,cpu {
-			sound-dai = <0x90>;
+			sound-dai = <&i2s1>;
 		};
 
 		simple-audio-card,codec {
@@ -2803,11 +2756,11 @@
 	hdmi-sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
-		simple-audio-card,mclk-fs = <0x80>;
+		simple-audio-card,mclk-fs = <128>;
 		simple-audio-card,name = "rockchip,hdmi";
 
 		simple-audio-card,cpu {
-			sound-dai = <0x92>;
+			sound-dai = <&i2s0>;
 		};
 
 		simple-audio-card,codec {
@@ -2820,7 +2773,7 @@
 		simple-audio-card,name = "rockchip,spdif";
 
 		simple-audio-card,cpu {
-			sound-dai = <0x94>;
+			sound-dai = <&spdif>;
 		};
 
 		simple-audio-card,codec {
