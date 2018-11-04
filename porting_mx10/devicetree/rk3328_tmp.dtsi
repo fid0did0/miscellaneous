@@ -382,6 +382,58 @@
 		};
 	};
 
+	thermal-zones {
+		soc_thermal: soc-thermal {
+			polling-delay-passive = <20>; /* milliseconds */
+			polling-delay = <1000>; /* milliseconds */
+			sustainable-power = <1000>; /* milliwatts */
+
+			thermal-sensors = <&tsadc 0>;
+
+			trips {
+				threshold: trip-point-0 {
+					temperature = <70000>; /* millicelsius */
+					hysteresis = <2000>; /* millicelsius */
+					type = "passive";
+				};
+				target: trip-point-1 {
+					temperature = <85000>; /* millicelsius */
+					hysteresis = <2000>; /* millicelsius */
+					type = "passive";
+				};
+				soc_crit: soc-crit {
+					temperature = <115000>; /* millicelsius */
+					hysteresis = <2000>; /* millicelsius */
+					type = "critical";
+				};
+			};
+
+			cooling-maps {
+				map0 {
+					trip = <&target>;
+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+					contribution = <4096>;
+				};
+				map1 {
+					trip = <&target>;
+					cooling-device = <0x31 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;	//&gpu
+					contribution = <4096>;
+				};
+				map2 {
+					trip = <&target>;
+					cooling-device = <0x32 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;		//&rkvdec
+					contribution = <1024>;
+				};
+				map3 {
+					trip = <&target>;
+					cooling-device = <0x33 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;		//&dmc
+					contribution = <1024>;
+				};
+			};
+		};
+
+	};
+
 	tsadc: tsadc@ff250000 {
 		compatible = "rockchip,rk3328-tsadc";
 		reg = <0x0 0xff250000 0x0 0x100>;
@@ -508,6 +560,28 @@
 		status = "disabled";
 	};
 
+	spi0: spi@ff190000 {
+		compatible = "rockchip,rk3328-spi", "rockchip,rk3066-spi";
+		reg = <0x0 0xff190000 0x0 0x1000>;
+		interrupts = <GIC_SPI 49 IRQ_TYPE_LEVEL_HIGH>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		clocks = <&cru SCLK_SPI>, <&cru PCLK_SPI>;
+		clock-names = "spiclk", "apb_pclk";
+		dmas = <0xc 0x8 0xc 0x9>;		//dmas = <&dmac 8>, <&dmac 9>;
+		dma-names = "tx", "rx";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x42 0x43 0x44 0x45>;	//pinctrl-0 = <&spi0m2_clk &spi0m2_tx &spi0m2_rx &spi0m2_cs0>;
+		status = "disabled";
+	};
+
+	wdt: watchdog@ff1a0000 {
+		compatible = "snps,dw-wdt";
+		reg = <0x0 0xff1a0000 0x0 0x100>;
+		interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
+		status = "disabled";
+	};
+	
 	
 	
 	cru: clock-controller@ff440000 {

@@ -253,7 +253,7 @@
 	vccio1-supply = <&vcc_io>;
 	vccio2-supply = <&vcc18_emmc>;
 	vccio3-supply = <&vcc_io>;
-	vccio4-supply = <&vcc_18>;
+	vccio4-supply = <&vcc_18>;		// to be verified!
 	vccio5-supply = <&vcc_io>;
 	vccio6-supply = <&vcc_io>;
 	pmuio-supply = <&vcc_io>;
@@ -420,87 +420,13 @@
 		device_type = "memory";
 	};
 
-	thermal-zones {
-
-		soc-thermal {
-			polling-delay-passive = <0x14>;
-			polling-delay = <0x3e8>;
-			sustainable-power = <0x3e8>;
-			thermal-sensors = <&tsadc 0x0>;
-
-			trips {
-
-				trip-point-0 {
-					temperature = <0x15f90>;
-					hysteresis = <0x7d0>;
-					type = "passive";
-				};
-
-				trip-point-1 {
-					temperature = <0x19a28>;
-					hysteresis = <0x7d0>;
-					type = "passive";
-					linux,phandle = <0x30>;
-					phandle = <0x30>;
-				};
-
-				soc-crit {
-					temperature = <0x1adb0>;
-					hysteresis = <0x7d0>;
-					type = "critical";
-				};
-			};
-
-			cooling-maps {
-
-				map0 {
-					trip = <0x30>;
-					cooling-device = <0x6 0xffffffff 0xffffffff>;
-					contribution = <0x1000>;
-				};
-
-				map1 {
-					trip = <0x30>;
-					cooling-device = <0x31 0xffffffff 0xffffffff>;
-					contribution = <0x1000>;
-				};
-
-				map2 {
-					trip = <0x30>;
-					cooling-device = <0x32 0xffffffff 0xffffffff>;
-					contribution = <0x400>;
-				};
-
-				map3 {
-					trip = <0x30>;
-					cooling-device = <0x33 0xffffffff 0xffffffff>;
-					contribution = <0x400>;
-				};
-			};
-		};
-	};
-
-	spi@ff190000 {
-		compatible = "rockchip,rk3328-spi", "rockchip,rk3066-spi";
-		reg = <0x0 0xff190000 0x0 0x1000>;
-		interrupts = <0x0 0x31 0x4>;
-		#address-cells = <0x1>;
-		#size-cells = <0x0>;
-		clocks = <&cru 0x20 &cru 0xd1>;
-		clock-names = "spiclk", "apb_pclk";
-		dmas = <0xc 0x8 0xc 0x9>;
-		#dma-cells = <0x2>;
-		dma-names = "tx", "rx";
-		pinctrl-names = "default";
-		pinctrl-0 = <0x42 0x43 0x44 0x45>;
-		status = "disabled";
-	};
-
-	watchdog@ff1a0000 {
-		compatible = "snps,dw-wdt";
-		reg = <0x0 0xff1a0000 0x0 0x100>;
-		interrupts = <0x0 0x28 0x4>;
-		status = "disabled";
+	vcc_sys: vcc-sys {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc_sys";
+		regulator-always-on;
+		regulator-boot-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 	};
 
 	pwm@ff1b0000 {
