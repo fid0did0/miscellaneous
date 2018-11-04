@@ -490,60 +490,6 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
-	amba {
-		compatible = "simple-bus";
-		#address-cells = <0x2>;
-		#size-cells = <0x2>;
-		ranges;
-
-		dmac@ff1f0000 {
-			compatible = "arm,pl330", "arm,primecell";
-			reg = <0x0 0xff1f0000 0x0 0x4000>;
-			interrupts = <0x0 0x0 0x4 0x0 0x1 0x4>;
-			clocks = <&cru 0x86>;
-			clock-names = "apb_pclk";
-			#dma-cells = <0x1>;
-			peripherals-req-type-burst;
-			linux,phandle = <0xc>;
-			phandle = <0xc>;
-		};
-	};
-
-	efuse@ff260000 {
-		compatible = "rockchip,rk3328-efuse";
-		reg = <0x0 0xff260000 0x0 0x50>;
-		#address-cells = <0x1>;
-		#size-cells = <0x1>;
-		clocks = <&cru 0x3e>;
-		clock-names = "pclk_efuse";
-		rockchip,efuse-size = <0x20>;
-
-		id@7 {
-			reg = <0x7 0x10>;
-			linux,phandle = <0xa>;
-			phandle = <0xa>;
-		};
-
-		cpu-leakage@17 {
-			reg = <0x17 0x1>;
-			linux,phandle = <0x5>;
-			phandle = <0x5>;
-		};
-
-		logic-leakage@19 {
-			reg = <0x19 0x1>;
-			linux,phandle = <0x4c>;
-			phandle = <0x4c>;
-		};
-
-		cpu-version@1a {
-			reg = <0x1a 0x1>;
-			bits = <0x3 0x3>;
-			linux,phandle = <0xb>;
-			phandle = <0xb>;
-		};
-	};
-
 	saradc@ff280000 {
 		compatible = "rockchip,rk3328-saradc", "rockchip,rk3399-saradc";
 		reg = <0x0 0xff280000 0x0 0x100>;
@@ -584,7 +530,7 @@
 	gpu-opp-table {
 		compatible = "operating-points-v2";
 		rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
-		nvmem-cells = <0x4c>;
+		nvmem-cells = <&logic_leakage>;
 		nvmem-cell-names = "gpu_leakage";
 		linux,phandle = <0x4a>;
 		phandle = <0x4a>;
@@ -707,7 +653,7 @@
 	rkvdec-opp-table {
 		compatible = "operating-points-v2";
 		rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
-		nvmem-cells = <0x4c>;
+		nvmem-cells = <&logic_leakage>;
 		nvmem-cell-names = "rkvdec_leakage";
 		linux,phandle = <0x52>;
 		phandle = <0x52>;
@@ -1329,7 +1275,7 @@
 	dmc-opp-table {
 		compatible = "operating-points-v2";
 		rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
-		nvmem-cells = <0x4c>;
+		nvmem-cells = <&logic_leakage>;
 		nvmem-cell-names = "ddr_leakage";
 		linux,phandle = <0x80>;
 		phandle = <0x80>;

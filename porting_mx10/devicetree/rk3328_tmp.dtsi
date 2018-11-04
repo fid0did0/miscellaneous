@@ -121,7 +121,7 @@
 			1   10    0
 			11  254   1
 		>;
-		nvmem-cells = <0x5>;			//<&cpu_leakage>;
+		nvmem-cells = <&cpu_leakage>;
 		nvmem-cell-names = "cpu_leakage";
 
 		opp-408000000 {
@@ -196,7 +196,7 @@
 
 	cpuinfo {
 		compatible = "rockchip,cpuinfo";
-		nvmem-cells = <0xa 0xb>;		//<&efuse_id>, <&efuse_cpu_version>;
+		nvmem-cells = <&efuse_id>, <&efuse_cpu_version>;
 		nvmem-cell-names = "id", "cpu-version";
 	};
 
@@ -239,7 +239,7 @@
 		interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&cru SCLK_I2S0>, <&cru HCLK_I2S0_8CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0xb 0xc 0xc>;			//<&dmac 11>, <&dmac 12>;
+		dmas = <&dmac 11>, <&dmac 12>;
 		dma-names = "tx", "rx";
 		status = "disabled";
 	};
@@ -250,7 +250,7 @@
 		interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&cru SCLK_I2S1>, <&cru HCLK_I2S1_8CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0xe 0xc 0xf>;			//<&dmac 14>, <&dmac 15>;
+		dmas = <&dmac 14>, <&dmac 15>;
 		dma-names = "tx", "rx";
 		status = "disabled";
 	};
@@ -261,7 +261,7 @@
 		interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&cru SCLK_I2S2>, <&cru HCLK_I2S2_2CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
-		dmas = <0xc 0x0 0xc 0x1>;			//<&dmac 0>, <&dmac 1>;
+		dmas = <&dmac 0>, <&dmac 1>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <0xd 0xe 0xf 0x10 0x11 0x12>;	/*<&i2s2m0_mclk
@@ -280,7 +280,7 @@
 		interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&cru SCLK_SPDIF>, <&cru HCLK_SPDIF_8CH>;
 		clock-names = "mclk", "hclk";
-		dmas = <0xc 0xa>;				//<&dmac 10>;
+		dmas = <&dmac 10>;
 		dma-names = "tx";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x14>;				//<&spdifm2_tx>;
@@ -292,7 +292,7 @@
 		reg = <0x0 0xff040000 0x0 0x1000>;
 		clocks = <&cru SCLK_PDM>, <&cru HCLK_PDM>;
 		clock-names = "pdm_clk", "pdm_hclk";
-		dmas = <0xc 0x10>;				//dmas = <&dmac 16>;
+		dmas = <&dmac 16>;
 		dma-names = "rx";
 		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <0x15 0x16 0x17 0x18 0x19 0x1a>;
@@ -465,7 +465,7 @@
 		clock-names = "baudclk", "apb_pclk";
 		reg-shift = <2>;
 		reg-io-width = <4>;
-		dmas = <0xc 0x2 0xc 0x3>;			//dmas = <&dmac 2>, <&dmac 3>;
+		dmas = <&dmac 2>, <&dmac 3>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x36 0x37>;
@@ -481,7 +481,7 @@
 		clock-names = "baudclk", "apb_pclk";
 		reg-shift = <2>;
 		reg-io-width = <4>;
-		dmas = <0xc 0x4 0xc 0x5>;			//dmas = <&dmac 4>, <&dmac 5>;
+		dmas = <&dmac 4>, <&dmac 5>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x38 0x39 0x3a>;			//pinctrl-0 = <&uart1_xfer &uart1_cts &uart1_rts>;
@@ -496,7 +496,7 @@
 		clock-names = "baudclk", "apb_pclk";
 		reg-shift = <2>;
 		reg-io-width = <4>;
-		dmas = <0xc 0x6 0xc 0x7>;			//dmas = <&dmac 6>, <&dmac 7>;
+		dmas = <&dmac 6>, <&dmac 7>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x3b>;				//pinctrl-0 = <&uart2m1_xfer>;
@@ -568,7 +568,7 @@
 		#size-cells = <0>;
 		clocks = <&cru SCLK_SPI>, <&cru PCLK_SPI>;
 		clock-names = "spiclk", "apb_pclk";
-		dmas = <0xc 0x8 0xc 0x9>;		//dmas = <&dmac 8>, <&dmac 9>;
+		dmas = <&dmac 8>, <&dmac 9>;
 		dma-names = "tx", "rx";
 		pinctrl-names = "default";
 		pinctrl-0 = <0x42 0x43 0x44 0x45>;	//pinctrl-0 = <&spi0m2_clk &spi0m2_tx &spi0m2_rx &spi0m2_cs0>;
@@ -627,6 +627,51 @@
 		status = "disabled";
 	};
 
+	amba {
+		compatible = "simple-bus";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		dmac: dmac@ff1f0000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x0 0xff1f0000 0x0 0x4000>;
+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&cru ACLK_DMAC>;
+			clock-names = "apb_pclk";
+			#dma-cells = <1>;
+			peripherals-req-type-burst;
+		};
+	};
+
+	efuse: efuse@ff260000 {
+		compatible = "rockchip,rk3328-efuse";
+		reg = <0x0 0xff260000 0x0 0x50>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		clocks = <&cru SCLK_EFUSE>;
+		clock-names = "pclk_efuse";
+		rockchip,efuse-size = <0x20>;
+
+		/* Data cells */
+		efuse_id: id@7 {
+			reg = <0x07 0x10>;
+		};
+		cpu_leakage: cpu-leakage@17 {
+			reg = <0x17 0x1>;
+		};
+		logic_leakage: logic-leakage@19 {
+			reg = <0x19 0x1>;
+		};
+		efuse_cpu_version: cpu-version@1a {
+			reg = <0x1a 0x1>;
+			bits = <3 3>;
+		};
+	};
+
+	
+	
 	
 	cru: clock-controller@ff440000 {
 		compatible = "rockchip,rk3328-cru", "rockchip,cru", "syscon";
