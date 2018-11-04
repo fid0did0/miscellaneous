@@ -383,7 +383,81 @@
 		};
 	};
 
-	
+	tsadc: tsadc@ff250000 {
+		compatible = "rockchip,rk3328-tsadc";
+		reg = <0x0 0xff250000 0x0 0x100>;
+		interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
+		rockchip,grf = <&grf>;
+		clocks = <&cru SCLK_TSADC>, <&cru PCLK_TSADC>;
+		clock-names = "tsadc", "apb_pclk";
+		assigned-clocks = <&cru SCLK_TSADC>;
+		assigned-clock-rates = <50000>;
+		resets = <&cru SRST_TSADC>;
+		reset-names = "tsadc-apb";
+		pinctrl-names = "init", "default", "sleep";
+		pinctrl-0 = <0x34>;
+		pinctrl-1 = <0x35>;
+		pinctrl-2 = <0x34>;
+		/*pinctrl-0 = <&otp_gpio>;
+		pinctrl-1 = <&otp_out>;
+		pinctrl-2 = <&otp_gpio>;*/
+		#thermal-sensor-cells = <1>;
+		rockchip,hw-tshut-temp = <120000>;
+		status = "disabled";
+	};
+
+	uart0: serial@ff110000 {
+		compatible = "rockchip,rk3328-uart", "snps,dw-apb-uart";
+		reg = <0x0 0xff110000 0x0 0x100>;
+		interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&cru SCLK_UART0>, <&cru PCLK_UART0>;
+		clock-names = "baudclk", "apb_pclk";
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		dmas = <0xc 0x2 0xc 0x3>;			//dmas = <&dmac 2>, <&dmac 3>;
+		dma-names = "tx", "rx";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x36 0x37>;
+		//pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>;
+		status = "disabled";
+	};
+
+	uart1: serial@ff120000 {
+		compatible = "rockchip,rk3328-uart", "snps,dw-apb-uart";
+		reg = <0x0 0xff120000 0x0 0x100>;
+		interrupts = <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&cru SCLK_UART1>, <&cru PCLK_UART1>;
+		clock-names = "baudclk", "apb_pclk";
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		dmas = <0xc 0x4 0xc 0x5>;			//dmas = <&dmac 4>, <&dmac 5>;
+		dma-names = "tx", "rx";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x38 0x39 0x3a>;			//pinctrl-0 = <&uart1_xfer &uart1_cts &uart1_rts>;
+		status = "disabled";
+	};
+
+	uart2: serial@ff130000 {
+		compatible = "rockchip,rk3328-uart", "snps,dw-apb-uart";
+		reg = <0x0 0xff130000 0x0 0x100>;
+		interrupts = <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&cru SCLK_UART2>, <&cru PCLK_UART2>;
+		clock-names = "baudclk", "apb_pclk";
+		reg-shift = <2>;
+		reg-io-width = <4>;
+		dmas = <0xc 0x6 0xc 0x7>;			//dmas = <&dmac 6>, <&dmac 7>;
+		dma-names = "tx", "rx";
+		pinctrl-names = "default";
+		pinctrl-0 = <0x3b>;				//pinctrl-0 = <&uart2m1_xfer>;
+		status = "disabled";
+	};
+
+	pmu: power-management@ff140000 {
+		compatible = "rockchip,rk3328-pmu", "syscon", "simple-mfd";
+		reg = <0x0 0xff140000 0x0 0x1000>;
+	};
+
+
 	
 	
 	cru: clock-controller@ff440000 {
