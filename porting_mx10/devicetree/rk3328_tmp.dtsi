@@ -79,7 +79,7 @@
 			compatible = "arm,cortex-a53", "arm,armv8";
 			reg = <0x0 0x0>;
 			enable-method = "psci";
-			clocks = <0x2 0x6>;		//clocks = <&cru ARMCLK>;
+			clocks = <&cru ARMCLK>;
 			#cooling-cells = <2>; /* min followed by max */
 			dynamic-power-coefficient = <120>;
 			operating-points-v2 = <&cpu0_opp_table>;
@@ -89,7 +89,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53", "arm,armv8";
 			reg = <0x0 0x1>;
-			clocks = <0x2 0x6>;		//clocks = <&cru ARMCLK>;
+			clocks = <&cru ARMCLK>;
 			dynamic-power-coefficient = <120>;
 			enable-method = "psci";
 			operating-points-v2 = <&cpu0_opp_table>;
@@ -98,7 +98,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53", "arm,armv8";
 			reg = <0x0 0x2>;
-			clocks = <0x2 0x6>;		//clocks = <&cru ARMCLK>;
+			clocks = <&cru ARMCLK>;
 			dynamic-power-coefficient = <120>;
 			enable-method = "psci";
 			operating-points-v2 = <&cpu0_opp_table>;
@@ -107,7 +107,7 @@
 			device_type = "cpu";
 			compatible = "arm,cortex-a53", "arm,armv8";
 			reg = <0x0 0x3>;
-			clocks = <0x2 0x6>;		//clocks = <&cru ARMCLK>;
+			clocks = <&cru ARMCLK>;
 			dynamic-power-coefficient = <120>;
 			enable-method = "psci";
 			operating-points-v2 = <&cpu0_opp_table>;
@@ -238,7 +238,7 @@
 		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
 		reg = <0x0 0xff000000 0x0 0x1000>;
 		interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <0x2 0x29 0x2 0x137>;			//<&cru SCLK_I2S0>, <&cru HCLK_I2S0_8CH>;
+		clocks = <&cru SCLK_I2S0>, <&cru HCLK_I2S0_8CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
 		dmas = <0xc 0xb 0xc 0xc>;			//<&dmac 11>, <&dmac 12>;
 		dma-names = "tx", "rx";
@@ -249,7 +249,7 @@
 		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
 		reg = <0x0 0xff010000 0x0 0x1000>;
 		interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <0x2 0x2a 0x2 0x138>;			//<&cru SCLK_I2S1>, <&cru HCLK_I2S1_8CH>;
+		clocks = <&cru SCLK_I2S1>, <&cru HCLK_I2S1_8CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
 		dmas = <0xc 0xe 0xc 0xf>;			//<&dmac 14>, <&dmac 15>;
 		dma-names = "tx", "rx";
@@ -260,7 +260,7 @@
 		compatible = "rockchip,rk3328-i2s", "rockchip,rk3066-i2s";
 		reg = <0x0 0xff020000 0x0 0x1000>;
 		interrupts = <GIC_SPI 28 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <0x2 0x2b 0x2 0x139>;			//<&cru SCLK_I2S2>, <&cru HCLK_I2S2_2CH>;
+		clocks = <&cru SCLK_I2S2>, <&cru HCLK_I2S2_2CH>;
 		clock-names = "i2s_clk", "i2s_hclk";
 		dmas = <0xc 0x0 0xc 0x1>;			//<&dmac 0>, <&dmac 1>;
 		dma-names = "tx", "rx";
@@ -279,7 +279,7 @@
 		compatible = "rockchip,rk3328-spdif";
 		reg = <0x0 0xff030000 0x0 0x1000>;
 		interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-		clocks = <0x2 0x2e 0x2 0x13a>;			//<&cru SCLK_SPDIF>, <&cru HCLK_SPDIF_8CH>;
+		clocks = <&cru SCLK_SPDIF>, <&cru HCLK_SPDIF_8CH>;
 		clock-names = "mclk", "hclk";
 		dmas = <0xc 0xa>;				//<&dmac 10>;
 		dma-names = "tx";
@@ -288,4 +288,68 @@
 		status = "disabled";
 	};
 
+	
+	
+	
+	
+	
+	cru: clock-controller@ff440000 {
+		compatible = "rockchip,rk3328-cru", "rockchip,cru", "syscon";
+		reg = <0x0 0xff440000 0x0 0x1000>;
+		rockchip,grf = <0x1c>;				//<&grf>;
+		#clock-cells = <1>;
+		#reset-cells = <1>;
+		assigned-clocks =
+			<&cru DCLK_LCDC>, <&cru SCLK_PDM>,
+			<&cru SCLK_RTC32K>, <&cru SCLK_UART0>,
+			<&cru SCLK_UART1>, <&cru SCLK_UART2>,
+			<&cru ACLK_BUS_PRE>, <&cru ACLK_PERI_PRE>,
+			<&cru ACLK_RGA_PRE>, <&cru ACLK_RKVDEC_PRE>,
+			<&cru ACLK_RKVENC>, <&cru ACLK_VPU_PRE>,
+			<&cru SCLK_VDEC_CABAC>, <&cru SCLK_VDEC_CORE>,
+			<&cru SCLK_VENC_CORE>, <&cru SCLK_VENC_DSP>,
+			<&cru SCLK_SDIO>, <&cru SCLK_TSP>,
+			<&cru SCLK_WIFI>, <&cru ARMCLK>,
+			<&cru PLL_GPLL>, <&cru PLL_CPLL>,
+			<&cru ACLK_BUS_PRE>, <&cru HCLK_BUS_PRE>,
+			<&cru PCLK_BUS_PRE>, <&cru ACLK_PERI_PRE>,
+			<&cru HCLK_PERI>, <&cru PCLK_PERI>,
+			<&cru ACLK_VIO_PRE>, <&cru HCLK_VIO_PRE>,
+			<&cru ACLK_RGA_PRE>, <&cru SCLK_RGA>,
+			<&cru ACLK_VOP_PRE>, <&cru ACLK_RKVDEC_PRE>,
+			<&cru ACLK_RKVENC>, <&cru ACLK_VPU_PRE>,
+			<&cru SCLK_VDEC_CABAC>, <&cru SCLK_VDEC_CORE>,
+			<&cru SCLK_VENC_CORE>, <&cru SCLK_VENC_DSP>,
+			<&cru SCLK_EFUSE>, <&cru PCLK_DDR>,
+			<&cru ACLK_GMAC>, <&cru PCLK_GMAC>,
+			<&cru SCLK_RTC32K>, <&cru SCLK_USB3OTG_SUSPEND>;
+		assigned-clock-parents =
+			<&cru HDMIPHY>, <&cru PLL_APLL>,
+			<&cru PLL_GPLL>, <&xin24m>,
+			<&xin24m>, <&xin24m>;
+		assigned-clock-rates =
+			<0>, <61440000>,
+			<0>, <24000000>,
+			<24000000>, <24000000>,
+			<15000000>, <15000000>,
+			<100000000>, <100000000>,
+			<50000000>, <100000000>,
+			<100000000>, <100000000>,
+			<50000000>, <50000000>,
+			<50000000>, <50000000>,
+			<24000000>, <600000000>,
+			<491520000>, <1200000000>,
+			<150000000>, <75000000>,
+			<75000000>, <150000000>,
+			<75000000>, <75000000>,
+			<300000000>, <100000000>,
+			<300000000>, <200000000>,
+			<400000000>, <500000000>,
+			<200000000>, <300000000>,
+			<300000000>, <250000000>,
+			<200000000>, <100000000>,
+			<24000000>, <100000000>,
+			<150000000>, <50000000>,
+			<32768>, <32768>;
+	};
 };
