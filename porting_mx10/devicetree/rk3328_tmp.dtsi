@@ -722,6 +722,23 @@
 		name = "avsd";
 	};
 
+	vpu_service: vpu_combo {
+		compatible = "rockchip,rk3328-vpu-combo", "rockchip,vpu_combo";
+		rockchip,grf = <&grf>;
+		subcnt = <2>;
+		rockchip,sub = <&vdpu>, <&avsd>;
+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+		clock-names = "aclk_vcodec", "hclk_vcodec";
+		resets = <&cru SRST_VCODEC_A>, <&cru SRST_VCODEC_H>;
+		reset-names = "video_a", "video_h";
+		mode_bit = <0>;
+		mode_ctrl = <0>;
+		name = "vpu_combo";
+		power-domains = <&power RK3328_PD_VPU>;
+		status = "disabled";
+	};
+
+	
 	
 	cru: clock-controller@ff440000 {
 		compatible = "rockchip,rk3328-cru", "rockchip,cru", "syscon";

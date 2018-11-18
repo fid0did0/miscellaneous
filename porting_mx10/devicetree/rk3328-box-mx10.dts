@@ -469,6 +469,10 @@
 	};
 };
 
+&vpu_service {
+	status = "okay";
+};
+
 / {
 	compatible = "rockchip,rk3328-mx10", "rockchip,rk3328";
 	interrupt-parent = <0x1>;
@@ -552,21 +556,6 @@
 			opp-microvolt-L0 = <0x112a88>;
 			opp-microvolt-L1 = <0x10c8e0>;
 		};
-	};
-
-	vpu_combo {
-		compatible = "rockchip,rk3328-vpu-combo", "rockchip,vpu_combo";
-		rockchip,grf = <&grf>;
-		subcnt = <0x2>;
-		rockchip,sub = <&vdpu>, <&avsd>;
-		clocks = <&cru 0x8f &cru 0x146>;
-		clock-names = "aclk_vcodec", "hclk_vcodec";
-		resets = <&cru 0xa0 &cru 0xa2>;
-		reset-names = "video_a", "video_h";
-		mode_bit = <0x0>;
-		mode_ctrl = <0x0>;
-		power-domains = <&power 0x8>;
-		status = "okay";
 	};
 
 	rkvdec@ff36000 {
