@@ -490,6 +490,7 @@
 		regulator-max-microvolt = <5000000>;
 	};
 
+	// da spostare insieme al gpu-opp-table
 	gpu@ff300000 {
 		compatible = "arm,mali-450";
 		reg = <0x0 0xff300000 0x0 0x40000 0x0 0xff300000 0x0 0x40000>;
@@ -514,7 +515,8 @@
 			thermal-zone = "soc-thermal";
 		};
 	};
-
+	
+	// sembra non funzionare (da spostare dopo)
 	gpu-opp-table {
 		compatible = "operating-points-v2";
 		rockchip,leakage-voltage-sel = <0x1 0x8 0x0 0x9 0xfe 0x1>;
@@ -552,52 +554,11 @@
 		};
 	};
 
-	vpu_service@ff350000 {
-		compatible = "vpu,sub";
-		iommu_enabled = <0x1>;
-		iommus = <0x4d>;
-		allocator = <0x1>;
-		reg = <0x0 0xff350000 0x0 0x800>;
-		interrupts = <0x0 0x9 0x4>;
-		interrupt-names = "irq_dec";
-		dev_mode = <0x0>;
-		power-domains = <&power 0x8>;
-		linux,phandle = <0x4f>;
-		phandle = <0x4f>;
-	};
-
-	iommu@ff350800 {
-		compatible = "rockchip,iommu";
-		reg = <0x0 0xff350800 0x0 0x40>;
-		interrupts = <0x0 0xb 0x4>;
-		interrupt-names = "vpu_mmu";
-		clock-names = "aclk", "hclk";
-		clocks = <&cru 0x8f &cru 0x146>;
-		power-domains = <&power 0x8>;
-		#iommu-cells = <0x0>;
-		linux,phandle = <0x4d>;
-		phandle = <0x4d>;
-	};
-
-	avsd@ff351000 {
-		compatible = "vpu,sub";
-		iommu_enabled = <0x1>;
-		iommus = <0x4d>;
-		allocator = <0x1>;
-		reg = <0x0 0xff351000 0x0 0x200>;
-		interrupts = <0x0 0x9 0x4>;
-		interrupt-names = "irq_dec";
-		power-domains = <&power 0x8>;
-		dev_mode = <0x0>;
-		linux,phandle = <0x50>;
-		phandle = <0x50>;
-	};
-
 	vpu_combo {
 		compatible = "rockchip,rk3328-vpu-combo", "rockchip,vpu_combo";
 		rockchip,grf = <&grf>;
 		subcnt = <0x2>;
-		rockchip,sub = <0x4f 0x50>;
+		rockchip,sub = <&vdpu>, <&avsd>;
 		clocks = <&cru 0x8f &cru 0x146>;
 		clock-names = "aclk_vcodec", "hclk_vcodec";
 		resets = <&cru 0xa0 &cru 0xa2>;

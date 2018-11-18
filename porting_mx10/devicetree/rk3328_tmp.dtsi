@@ -682,7 +682,46 @@
 		status = "disabled";
 	};
 
+	//gpu@ff300000
+	//gpu-opp-table
 	
+	vdpu: vpu_service@ff350000 {
+		compatible = "vpu,sub";
+		iommu_enabled = <1>;
+		iommus = <&vpu_mmu>;
+		allocator = <1>;
+		reg = <0x0 0xff350000 0x0 0x800>;
+		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "irq_dec";
+		dev_mode = <0>;
+		power-domains = <&power RK3328_PD_VPU>;
+		name = "vpu_service";
+	};
+
+	vpu_mmu: iommu@ff350800 {
+		compatible = "rockchip,iommu";
+		reg = <0x0 0xff350800 0x0 0x40>;
+		interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "vpu_mmu";
+		clock-names = "aclk", "hclk";
+		clocks = <&cru ACLK_VPU>, <&cru HCLK_VPU>;
+		power-domains = <&power RK3328_PD_VPU>;
+		#iommu-cells = <0>;
+	};
+
+	avsd: avsd@ff351000 {
+		compatible = "vpu,sub";
+		iommu_enabled = <1>;
+		iommus = <&vpu_mmu>;
+		allocator = <1>;
+		reg = <0x0 0xff351000 0x0 0x200>;
+		interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-names = "irq_dec";
+		power-domains = <&power RK3328_PD_VPU>;
+		dev_mode = <0>;
+		name = "avsd";
+	};
+
 	
 	cru: clock-controller@ff440000 {
 		compatible = "rockchip,rk3328-cru", "rockchip,cru", "syscon";
